@@ -5,7 +5,7 @@ import BottomArrowIcon from "./SVG/BottomArrowIcon";
 import RenderFileIcon from "./RenderFileIcon";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../app/store";
-import { setOpendFilesAction } from "../app/features/fileTreeSlice";
+import { setActiveTabIdAction, setOpendFilesAction } from "../app/features/fileTreeSlice";
 import { doesFileObjectExist } from "../utils/functions";
 
 interface IProps {
@@ -28,6 +28,7 @@ const RecursiveComponent = ({ fileTree }: IProps) => {
     if(exists)
       return ;
     dispatch(setOpendFilesAction([...opendFiles,fileTree]))
+    dispatch(setActiveTabIdAction(id))
   }
 
   return (

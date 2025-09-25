@@ -8,7 +8,7 @@ const OpendFilesBar = () => {
 
   return (
     <div>
-       <div className="flex items-center">
+       <div className="flex items-center border-b-[1px] border-[#ffffff1f]">
         {opendFiles.map((itm) => <OpendFilesBarTab file={itm} key={itm.id}/>)} 
        </div>
        <div> {clickedFiles.fileContent }</div>
