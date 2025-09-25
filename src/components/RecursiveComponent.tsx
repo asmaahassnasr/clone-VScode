@@ -16,7 +16,7 @@ const RecursiveComponent = ({
   const toggle = () => setIsOpen((prev) => !prev);
 
   return (
-    <div className="ml-3 mb-2 cursor-pointer">
+    <div className="ml-2 mb-2 cursor-pointer">
       <div className="flex items-center mb-2">
         {isFolder ? (
           <div className="flex items-center" onClick={toggle}>
