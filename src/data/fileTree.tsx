@@ -29,8 +29,8 @@ export const fileTree: IFile = {
             {name:"Interfaces" , isFolder:true , children :[{name:"index.tsx" , isFolder:false}]},
           ]
         },
-        { name: "App.tsx", isFolder: false },
-        { name: "App.css", isFolder: false },
+        { name: "App.jsx", isFolder: false },
+        { name: "App.js", isFolder: false },
         { name: "index.css", isFolder: false },
         { name: "main.tsx", isFolder: false }
       ]
