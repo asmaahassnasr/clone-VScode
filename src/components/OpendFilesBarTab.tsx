@@ -3,7 +3,6 @@ import type { IFile } from "../interfaces";
 import RenderFileIcon from "./RenderFileIcon";
 import CloseIcon from "./SVG/CloseIcon";
 import {
-  setActiveTabIdAction,
   setClickeFilesAction,
 } from "../app/features/fileTreeSlice";
 import type { RootState } from "../app/store";
@@ -14,12 +13,11 @@ interface IProps {
 
 const OpendFilesBarTab = ({ file }: IProps) => {
   const dispatch = useDispatch();
-  const { activeTabId } = useSelector((state: RootState) => state.tree);
+  const { clickedFiles:{activeTabId} } = useSelector((state: RootState) => state.tree);
 
   const onClickHandler = () => {
     const { id, name, content } = file;
-    dispatch(setClickeFilesAction({ fileName: name, fileContent: content }));
-    dispatch(setActiveTabIdAction(id));
+    dispatch(setClickeFilesAction({ fileName: name, fileContent: content,activeTabId:id }));
   };
 
   return (
