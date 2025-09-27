@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { setOpendFilesAction } from "../../app/features/fileTreeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setClickeFilesAction, setOpendFilesAction } from "../../app/features/fileTreeSlice";
+import type { RootState } from "../../app/store";
 
 interface IProps {
   setShowMenu: (val: boolean) => void;
@@ -10,6 +11,10 @@ interface IProps {
   };
 }
 const ContextMenu = ({ positions, setShowMenu }: IProps) => {
+  const { idToBeRemoved, opendFiles } = useSelector(
+    (state: RootState) => state.tree
+  );
+
   const menuRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
 
@@ -25,8 +30,36 @@ const ContextMenu = ({ positions, setShowMenu }: IProps) => {
   }, [setShowMenu]);
 
   // **** Handlers
-  const closeAllHandler = () => {
+  const onCloseAllHandler = () => {
     dispatch(setOpendFilesAction([]));
+    setShowMenu(false);
+  };
+
+  const onCloseHandler = () => {
+    setShowMenu(false);
+    const filtered = opendFiles.filter((file) => file.id !== idToBeRemoved);
+    const lastTab = filtered[filtered.length - 1];
+    if (!lastTab) {
+      dispatch(setOpendFilesAction([]));
+      dispatch(
+        setClickeFilesAction({
+          activeTabId: null,
+          fileContent: "",
+          fileName: "",
+        })
+      );
+      return;
+    }
+
+    const { id, content, name } = lastTab;
+    dispatch(setOpendFilesAction(filtered));
+    dispatch(
+      setClickeFilesAction({
+        activeTabId: id,
+        fileContent: content,
+        fileName: name,
+      })
+    );
   };
 
   return (
@@ -39,8 +72,19 @@ const ContextMenu = ({ positions, setShowMenu }: IProps) => {
           top: positions.posY,
         }}
       >
-        <li className="cursor-pointer mt-2 hover:text-gray-400">Close </li>
-        <li onClick={closeAllHandler} className="cursor-pointer mt-2 hover:text-gray-400"> Close All </li>
+        <li
+          onClick={onCloseHandler}
+          className="cursor-pointer mt-2 hover:text-gray-400"
+        >
+          Close{" "}
+        </li>
+        <li
+          onClick={onCloseAllHandler}
+          className="cursor-pointer mt-2 hover:text-gray-400"
+        >
+          {" "}
+          Close All{" "}
+        </li>
       </ul>
     </div>
   );
