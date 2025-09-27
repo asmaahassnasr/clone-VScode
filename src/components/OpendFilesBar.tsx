@@ -28,7 +28,7 @@ const OpendFilesBar = () => {
         ))}
       </div>
 
-      {showMenu && <ContextMenu positions={menuPosition} />}
+      {showMenu && <ContextMenu positions={menuPosition} setShowMenu={setShowMenu}/>}
     </div>
   );
 };
