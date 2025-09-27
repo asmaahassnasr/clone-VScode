@@ -24,9 +24,19 @@ const OpendFilesBarTab = ({ file }: IProps) => {
     dispatch(setClickeFilesAction({ fileName: name, fileContent: content,activeTabId:id }));
   };
 
-  const onCloseTab = (id:string)=>{
-    const filtered = opendFiles.filter(file => file.id !== id);
+  const onCloseTab = (selectedId:string)=>{
+    const filtered = opendFiles.filter(file => file.id !== selectedId);
+    const lastTab = filtered[filtered.length -1];
+    if(!lastTab)
+    {
+    dispatch(setOpendFilesAction([]));
+    dispatch(setClickeFilesAction({activeTabId:null, fileContent:"",fileName:""}))
+    return;
+    }
+
+    const {id,content,name} =  lastTab;
     dispatch(setOpendFilesAction(filtered));
+    dispatch(setClickeFilesAction({activeTabId:id, fileContent:content,fileName:name}))
 
   }
 
