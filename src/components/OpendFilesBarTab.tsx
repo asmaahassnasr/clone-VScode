@@ -4,6 +4,7 @@ import RenderFileIcon from "./RenderFileIcon";
 import CloseIcon from "./SVG/CloseIcon";
 import {
   setClickeFilesAction,
+  setOpendFilesAction,
 } from "../app/features/fileTreeSlice";
 import type { RootState } from "../app/store";
 
@@ -12,14 +13,24 @@ interface IProps {
 }
 
 const OpendFilesBarTab = ({ file }: IProps) => {
-  const dispatch = useDispatch();
-  const { clickedFiles:{activeTabId} } = useSelector((state: RootState) => state.tree);
 
+  const dispatch = useDispatch();
+  const {opendFiles, clickedFiles:{activeTabId} } = useSelector((state: RootState) => state.tree);
+
+  // **** Handlers
+  
   const onClickHandler = () => {
     const { id, name, content } = file;
     dispatch(setClickeFilesAction({ fileName: name, fileContent: content,activeTabId:id }));
   };
 
+  const onCloseTab = (id:string)=>{
+    const filtered = opendFiles.filter(file => file.id !== id);
+    dispatch(setOpendFilesAction(filtered));
+
+  }
+
+  
   return (
     <div
       className={`max-w-screen-md flex items-center p-2 border-t-3 ${
@@ -32,7 +43,13 @@ const OpendFilesBarTab = ({ file }: IProps) => {
         {file.name}
       </span>
 
-      <span className="cursor-pointer hover:bg-[#64646473] duration-300 flex justify-center items-center w-fit mr-2 p-1 rounded-md">
+      <span 
+      className="cursor-pointer hover:bg-[#64646473] duration-300 flex justify-center items-center w-fit mr-2 p-1 rounded-md"
+      onClick={(e) => {
+        e.stopPropagation();
+        onCloseTab(file.id)
+      }}
+      >
         <CloseIcon />
       </span>
     </div>
