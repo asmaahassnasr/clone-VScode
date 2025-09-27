@@ -1,5 +1,5 @@
 import "./App.css";
-import OpendFilesBar from "./components/OpendFilesBar";
+import Preview from "./components/Preview";
 import RecursiveComponent from "./components/RecursiveComponent";
 import ResizablePanel from "./components/ResizablePanel";
 import { fileTree } from "./data/fileTree";
@@ -13,7 +13,7 @@ function App() {
               <RecursiveComponent fileTree={fileTree} />
             </div>
           }
-          rightPanel={<OpendFilesBar />}
+          rightPanel={<Preview />}
         />
       </div>
     </>
